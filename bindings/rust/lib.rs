@@ -1,6 +1,6 @@
 // -*- coding: utf-8 -*-
 // ------------------------------------------------------------------------------------------------
-// Copyright © 2020, tree-sitter-java authors.
+// Copyright © 2020, tree-sitter-jsketch authors.
 // See the LICENSE file in this repo for license details.
 // ------------------------------------------------------------------------------------------------
 
@@ -20,7 +20,7 @@
 //!     }
 //! "#;
 //! let mut parser = Parser::new();
-//! parser.set_language(tree_sitter_java::language()).expect("Error loading Java grammar");
+//! parser.set_language(tree_sitter_jsketch::language()).expect("Error loading Java grammar");
 //! let parsed = parser.parse(code, None);
 //! # let parsed = parsed.unwrap();
 //! # let root = parsed.root_node();
@@ -35,14 +35,14 @@
 use tree_sitter::Language;
 
 extern "C" {
-    fn tree_sitter_java() -> Language;
+    fn tree_sitter_jsketch() -> Language;
 }
 
 /// Returns the tree-sitter [Language][] for this grammar.
 ///
 /// [Language]: https://docs.rs/tree-sitter/*/tree_sitter/struct.Language.html
 pub fn language() -> Language {
-    unsafe { tree_sitter_java() }
+    unsafe { tree_sitter_jsketch() }
 }
 
 /// The source of the Java tree-sitter grammar description.
