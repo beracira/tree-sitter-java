@@ -14,6 +14,10 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "hole"
+        },
+        {
+          "type": "SYMBOL",
           "name": "decimal_integer_literal"
         },
         {
@@ -59,6 +63,48 @@
         {
           "type": "SYMBOL",
           "name": "null_literal"
+        }
+      ]
+    },
+    "hole": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "??"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "{|"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "expression"
+            },
+            {
+              "type": "REPEAT1",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "expression"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "STRING",
+              "value": "|}"
+            }
+          ]
         }
       ]
     },
@@ -1167,6 +1213,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "array_range_comparison"
+        },
+        {
+          "type": "SYMBOL",
           "name": "instanceof_expression"
         },
         {
@@ -1992,6 +2042,23 @@
         }
       ]
     },
+    "array_range_comparison": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "array_range_access"
+        },
+        {
+          "type": "STRING",
+          "value": "=="
+        },
+        {
+          "type": "SYMBOL",
+          "name": "array_range_access"
+        }
+      ]
+    },
     "instanceof_expression": {
       "type": "PREC",
       "value": 10,
@@ -2683,6 +2750,39 @@
         }
       ]
     },
+    "array_range_access": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "array",
+          "content": {
+            "type": "SYMBOL",
+            "name": "primary_expression"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "[]("
+        },
+        {
+          "type": "SYMBOL",
+          "name": "expression"
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "SYMBOL",
+          "name": "expression"
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
     "method_invocation": {
       "type": "SEQ",
       "members": [
@@ -3220,6 +3320,14 @@
         },
         {
           "type": "SYMBOL",
+          "name": "sketch_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "array_range_assignment"
+        },
+        {
+          "type": "SYMBOL",
           "name": "labeled_statement"
         },
         {
@@ -3322,6 +3430,48 @@
         {
           "type": "SYMBOL",
           "name": "expression"
+        },
+        {
+          "type": "STRING",
+          "value": ";"
+        }
+      ]
+    },
+    "sketch_statement": {
+      "type": "PREC",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "{"
+          },
+          {
+            "type": "PATTERN",
+            "value": "[^*]*\\*+([^/*][^*]*\\*+)*"
+          },
+          {
+            "type": "STRING",
+            "value": "}"
+          }
+        ]
+      }
+    },
+    "array_range_assignment": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "array_range_access"
+        },
+        {
+          "type": "STRING",
+          "value": "="
+        },
+        {
+          "type": "SYMBOL",
+          "name": "array_range_access"
         },
         {
           "type": "STRING",
@@ -5084,6 +5234,14 @@
           {
             "type": "SYMBOL",
             "name": "_annotation"
+          },
+          {
+            "type": "STRING",
+            "value": "generator"
+          },
+          {
+            "type": "STRING",
+            "value": "model"
           },
           {
             "type": "STRING",

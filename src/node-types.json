@@ -32,6 +32,10 @@
         "named": true
       },
       {
+        "type": "hole",
+        "named": true
+      },
+      {
         "type": "null_literal",
         "named": true
       },
@@ -168,6 +172,10 @@
     "named": true,
     "subtypes": [
       {
+        "type": "array_range_comparison",
+        "named": true
+      },
+      {
         "type": "assignment_expression",
         "named": true
       },
@@ -294,6 +302,10 @@
         "named": false
       },
       {
+        "type": "array_range_assignment",
+        "named": true
+      },
+      {
         "type": "assert_statement",
         "named": true
       },
@@ -343,6 +355,10 @@
       },
       {
         "type": "return_statement",
+        "named": true
+      },
+      {
+        "type": "sketch_statement",
         "named": true
       },
       {
@@ -689,6 +705,62 @@
         },
         {
           "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "array_range_access",
+    "named": true,
+    "fields": {
+      "array": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "primary_expression",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "array_range_assignment",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "array_range_access",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "array_range_comparison",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "array_range_access",
           "named": true
         }
       ]
@@ -2053,6 +2125,21 @@
     }
   },
   {
+    "type": "hole",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "if_statement",
     "named": true,
     "fields": {
@@ -3080,6 +3167,11 @@
     }
   },
   {
+    "type": "sketch_statement",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "spread_parameter",
     "named": true,
     "fields": {},
@@ -3829,6 +3921,10 @@
     "named": false
   },
   {
+    "type": "??",
+    "named": false
+  },
+  {
     "type": "@",
     "named": false
   },
@@ -3838,6 +3934,10 @@
   },
   {
     "type": "[",
+    "named": false
+  },
+  {
+    "type": "[](",
     "named": false
   },
   {
@@ -3961,6 +4061,10 @@
     "named": false
   },
   {
+    "type": "generator",
+    "named": false
+  },
+  {
     "type": "hex_floating_point_literal",
     "named": true
   },
@@ -4002,6 +4106,10 @@
   },
   {
     "type": "long",
+    "named": false
+  },
+  {
+    "type": "model",
     "named": false
   },
   {
@@ -4161,6 +4269,10 @@
     "named": false
   },
   {
+    "type": "{|",
+    "named": false
+  },
+  {
     "type": "|",
     "named": false
   },
@@ -4170,6 +4282,10 @@
   },
   {
     "type": "||",
+    "named": false
+  },
+  {
+    "type": "|}",
     "named": false
   },
   {

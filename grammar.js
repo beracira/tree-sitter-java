@@ -3,6 +3,7 @@ const HEX_DIGITS = token(sep1(/[A-Fa-f0-9]+/, '_'))
 const PREC = {
   // https://introcs.cs.princeton.edu/java/11precedence/
   COMMENT: 0,      // //  /*  */
+  SKETCH_BLOCK: 0,  // sketch {...}
   ASSIGN: 1,       // =  += -=  *=  /=  %=  &=  ^=  |=  <<=  >>=  >>>=
   SWITCH_EXP: 1,   // always prefer to parse switch as expression over statement
   DECL: 2,
@@ -78,6 +79,7 @@ module.exports = grammar({
     // Literals
 
     _literal: $ => choice(
+      $.hole,
       $.decimal_integer_literal,
       $.hex_integer_literal,
       $.octal_integer_literal,
@@ -90,6 +92,16 @@ module.exports = grammar({
       $.string_literal,
       $.text_block,
       $.null_literal
+    ),
+
+    hole: $ => choice(
+      '??',
+      seq(
+        '{|',
+        $.expression,
+        repeat1(seq(',', ($.expression))),
+        '|}'
+      )
     ),
 
     decimal_integer_literal: $ => token(seq(
@@ -167,6 +179,7 @@ module.exports = grammar({
     expression: $ => choice(
       $.assignment_expression,
       $.binary_expression,
+      $.array_range_comparison,
       $.instanceof_expression,
       $.lambda_expression,
       $.ternary_expression,
@@ -223,6 +236,12 @@ module.exports = grammar({
           field('right', $.expression)
         ))
       )),
+
+    array_range_comparison: $ => seq(
+      $.array_range_access,
+      '==',
+      $.array_range_access,
+    ),
 
     instanceof_expression: $ => prec(PREC.REL, seq(
       field('left', $.expression),
@@ -332,11 +351,21 @@ module.exports = grammar({
     ),
 
     array_access: $ => seq(
-      field('array', $.primary_expression),
-      '[',
-      field('index', $.expression),
-      ']',
+        field('array', $.primary_expression),
+        '[',
+        field('index', $.expression),
+        ']',
     ),
+
+    array_range_access: $ => seq(
+      field('array', $.primary_expression),
+      '[](',
+      $.expression,
+      ',',
+      $.expression,
+      ')',
+    ),
+
 
     method_invocation: $ => seq(
       choice(
@@ -421,6 +450,8 @@ module.exports = grammar({
     statement: $ => choice(
       $.declaration,
       $.expression_statement,
+      $.sketch_statement,
+      $.array_range_assignment,
       $.labeled_statement,
       $.if_statement,
       $.while_statement,
@@ -449,6 +480,22 @@ module.exports = grammar({
     expression_statement: $ => seq(
       $.expression,
       ';'
+    ),
+
+    sketch_statement: $ => prec(
+      PREC.SKETCH_BLOCK,
+      seq(
+        '{',
+        /[^*]*\*+([^/*][^*]*\*+)*/, // matches anything
+        '}',
+      )
+    ),
+
+    array_range_assignment: $ => seq(
+      $.array_range_access,
+      '=',
+      $.array_range_access,
+      ';',
     ),
 
     labeled_statement: $ => seq(
@@ -768,6 +815,8 @@ module.exports = grammar({
 
     modifiers: $ => repeat1(choice(
       $._annotation,
+      'generator',
+      'model',
       'public',
       'protected',
       'private',
