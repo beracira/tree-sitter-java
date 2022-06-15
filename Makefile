@@ -5,6 +5,9 @@ SRC_DIR := src
 
 PARSER_REPO_URL := $(shell git -C $(SRC_DIR) remote get-url origin )
 
+# override parser name, since it is not consistent with current repo name
+PARSER_NAME := jsketch
+
 ifeq (, $(PARSER_NAME))
 	PARSER_NAME := $(shell basename $(PARSER_REPO_URL))
 	PARSER_NAME := $(subst tree-sitter-,,$(PARSER_NAME))

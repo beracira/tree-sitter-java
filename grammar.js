@@ -29,7 +29,7 @@ const PREC = {
 };
 
 module.exports = grammar({
-  name: 'java',
+  name: 'jsketch',
 
   extras: $ => [
     $.line_comment,
